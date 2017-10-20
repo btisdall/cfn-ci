@@ -13,7 +13,7 @@ endif
 # Combine contents of the docker env-file and vars beginning `cfn_` from the
 # env. Any matching from the latter will override.
 merge-vars:
-	@awk '{if ($$0 ~ /^cfn_/ || $$0 ~ /^#/) {print $$0; next}; print "cfn_"$$0}' cfn-vars.env >> vars.merged
+	@awk '{if ($$0 ~ /^cfn_/ || $$0 ~ /^#/) {print $$0; next}; print "cfn_"$$0}' cfn-vars.env > vars.merged
 	@env | grep ^cfn_ >> vars.merged || true
 	@echo; echo "**** MERGED VARS: ENV overrides cfn.vars.env"; echo
 	@( set -a; . ./vars.merged && env|grep ^cfn_ || true ); echo
