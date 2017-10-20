@@ -29,4 +29,4 @@ create-or-update: merge-vars
 -v `pwd`:/home/node/workdir \
 --env-file vars.merged \
 quay.io/btisdall/cfn-ci:latest \
-create-or-update ${STACKNAME} ${TEMPLATE}
+create-or-update ${STACK} ${TEMPLATE}
