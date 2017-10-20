@@ -9,3 +9,4 @@ RUN npm install -g \
   ;
 
 COPY bin/create-or-update /usr/local/bin/
+COPY bin/Makefile /files/
