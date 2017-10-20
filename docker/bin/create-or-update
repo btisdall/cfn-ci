@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+# Create JSON params because I have no idea how to cope with args that were
+# quoted on the way in (eg comma sep. list of subnet IDs) in shell. Patches
+# welcome.
+PARAMS_JSON="$(node <<EOF
+console.log ("%j", Object.keys(process.env).filter(x => { return x.match(/^cfn_/) })
+  .map(x => { return { ParameterKey: x.replace(/^cfn_/,""), ParameterValue: process.env[x] }}))
+EOF
+)"
+
+echo
+echo "Params from env:"
+echo
+echo "${PARAMS_JSON}"| jq .
+echo
+
+set -x
+cfn-create-or-update --wait --stack-name "$1" --template-body "file://$2" --parameters "${PARAMS_JSON}"
