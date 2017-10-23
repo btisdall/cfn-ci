@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -eu
 
 # Create JSON params because I have no idea how to cope with args that were
 # quoted on the way in (eg comma sep. list of subnet IDs) in shell. Patches
@@ -17,5 +17,9 @@ echo
 echo "${PARAMS_JSON}"| jq .
 echo
 
+STACK_NAME=$1
+TEMPLATE_BODY=$2
+shift 2
+
 set -x
-cfn-create-or-update --wait --stack-name "$1" --template-body "file://$2" --parameters "${PARAMS_JSON}"
+cfn-create-or-update --wait --stack-name "${STACK_NAME}" --template-body "file://${TEMPLATE_BODY}" --parameters "${PARAMS_JSON}" "$@"
