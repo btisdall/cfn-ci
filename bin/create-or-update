@@ -21,5 +21,4 @@ STACK_NAME=$1
 TEMPLATE_BODY=$2
 shift 2
 
-set -x
 cfn-create-or-update --wait --stack-name "${STACK_NAME}" --template-body "file://${TEMPLATE_BODY}" --parameters "${PARAMS_JSON}" "$@"
